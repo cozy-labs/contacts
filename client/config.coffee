@@ -5,6 +5,8 @@ exports.config =
         public: 'public'
 
     plugins:
+        jade:
+            globals: ['t', 'moment', 'filesize']
         coffeelint:
             options:
                 indentation: value:4, level:'error'

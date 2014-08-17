@@ -2222,7 +2222,7 @@ var __templateData = function template(locals) {
 var buf = [];
 var jade_mixins = {};
 var jade_interp;
-var locals_ = (locals || {}),t = locals_.t,countries = locals_.countries;
+var locals_ = (locals || {}),countries = locals_.countries;
 buf.push("<div class=\"modal-header\">" + (jade.escape(null == (jade_interp = t("import call log")) ? "" : jade_interp)) + "</div><div id=\"import-file\" class=\"modal-body\"><p>" + (jade.escape(null == (jade_interp = t('import call log help')) ? "" : jade_interp)) + "</p><ul><li>" + (jade.escape(null == (jade_interp = t('import android calls')) ? "" : jade_interp)) + "<a href=\"https://play.google.com/store/apps/details?id=com.dukemdev\" target=\"_blank\">Call Log Export</a></li><li>" + (jade.escape(null == (jade_interp = t('import android sms')) ? "" : jade_interp)) + "<a href=\"https://play.google.com/store/apps/details?id=com.smeiti.smstotext\" target=\"_blank\">SMS To Text</a></li><li>" + (jade.escape(null == (jade_interp = t('import ios calls')) ? "" : jade_interp)) + "<a href=\"https://github.com/mycozycloud/cozy-contacts/blob/master/TODO.md#mobile\" target=\"_blank\">Github</a></li></ul><div class=\"control-group\"><label for=\"country\" class=\"control-label\">" + (jade.escape(null == (jade_interp = t("choose phone country")) ? "" : jade_interp)) + "</label><div class=\"controls\"><select id=\"phonecountry\">");
 // iterate countries
 ;(function(){
@@ -2264,7 +2264,7 @@ var __templateData = function template(locals) {
 var buf = [];
 var jade_mixins = {};
 var jade_interp;
-var locals_ = (locals || {}),hasPicture = locals_.hasPicture,id = locals_.id,t = locals_.t,fn = locals_.fn,tags = locals_.tags,note = locals_.note;
+var locals_ = (locals || {}),hasPicture = locals_.hasPicture,id = locals_.id,fn = locals_.fn,tags = locals_.tags,note = locals_.note;
 buf.push("<div id=\"contact-container\"><a id=\"close\" href=\"#\">&lt;</a><div id=\"picture\">");
 if ( hasPicture)
 {
@@ -2292,7 +2292,7 @@ var __templateData = function template(locals) {
 var buf = [];
 var jade_mixins = {};
 var jade_interp;
-var locals_ = (locals || {}),t = locals_.t;
+
 buf.push("<form id=\"toolbar\" class=\"form-search\"><div class=\"input-append input-prepend\"><span class=\"add-on\"><i class=\"icon-search icon-white\"></i></span><input id=\"filterfield\" type=\"text\"" + (jade.attr("placeholder", t("search placeholder"), true, false)) + " class=\"search-query input-large\"/><a id=\"filterClean\" class=\"button\"><i class=\"icon-remove icon-white\"></i></a></div><a id=\"new\" href=\"#contact/new\"" + (jade.attr("title", t("add contact"), true, false)) + " class=\"button\"><i class=\"icon-plus icon-white\"></i></a><a id=\"gohelp\" href=\"#help\"" + (jade.attr("title", t("go to settings"), true, false)) + " class=\"button\"><i class=\"icon-cog icon-white\"></i></a></form><div id=\"contacts\"></div>");;return buf.join("");
 };
 if (typeof define === 'function' && define.amd) {
@@ -2338,7 +2338,7 @@ var __templateData = function template(locals) {
 var buf = [];
 var jade_mixins = {};
 var jade_interp;
-var locals_ = (locals || {}),type = locals_.type,name = locals_.name,placeholder = locals_.placeholder,value = locals_.value,t = locals_.t;
+var locals_ = (locals || {}),type = locals_.type,name = locals_.name,placeholder = locals_.placeholder,value = locals_.value;
 buf.push("<input type=\"text\" data-provide=\"typeahead\"" + (jade.attr("value", "" + (type) + "", true, false)) + " class=\"type\"/>");
 if ( name == 'adr')
 {
@@ -2366,7 +2366,7 @@ var __templateData = function template(locals) {
 var buf = [];
 var jade_mixins = {};
 var jade_interp;
-var locals_ = (locals || {}),t = locals_.t;
+
 buf.push("<a id=\"close\" href=\"#\">&lt;</a><h2>" + (jade.escape(null == (jade_interp = t('help')) ? "" : jade_interp)) + "</h2><p>" + (jade.escape(null == (jade_interp = t("search info")) ? "" : jade_interp)) + "</p><p>" + (jade.escape(null == (jade_interp = t("click left to display")) ? "" : jade_interp)) + "</p><p>" + (jade.escape(null == (jade_interp = t("creation info")) ? "" : jade_interp)) + "</p><p>" + (jade.escape(null == (jade_interp = t("carddav info")) ? "" : jade_interp)) + "</p><h2>" + (jade.escape(null == (jade_interp = t('settings')) ? "" : jade_interp)) + "</h2><p id=\"config-now\" class=\"important\">" + (jade.escape(null == (jade_interp = t('do this now')) ? "" : jade_interp)) + "</p><label for=\"nameFormat\" class=\"control-label\">" + (jade.escape(null == (jade_interp = t('name format info')) ? "" : jade_interp)) + "</label><div class=\"control\"><select id=\"nameFormat\" class=\"span5 large\"><option value=\"\">" + (jade.escape(null == (jade_interp = t('name format info')) ? "" : jade_interp)) + "</option><option value=\"given-familly\">" + (jade.escape(null == (jade_interp = t('format given familly')) ? "" : jade_interp)) + "</option><option value=\"familly-given\">" + (jade.escape(null == (jade_interp = t('format familly given')) ? "" : jade_interp)) + "</option><option value=\"given-middleinitial-familly\">" + (jade.escape(null == (jade_interp = t('format given mid familly')) ? "" : jade_interp)) + "</option></select><span class=\"help-inline\"></span></div><h2>" + (jade.escape(null == (jade_interp = t('import export')) ? "" : jade_interp)) + "</h2><p>" + (jade.escape(null == (jade_interp = t("call log info") + ' ') ? "" : jade_interp)) + "<a href=\"#callimport\">" + (jade.escape(null == (jade_interp = t('import call log')) ? "" : jade_interp)) + "</a></p><p>" + (jade.escape(null == (jade_interp = t('vcard export info') + ' ') ? "" : jade_interp)) + "<a href=\"contacts.vcf\" download=\"contacts.vcf\"" + (jade.attr("title", t("export vcard"), true, false)) + ">" + (jade.escape(null == (jade_interp = t('export all vcard')) ? "" : jade_interp)) + "</a></p><p>" + (jade.escape(null == (jade_interp = t("vcard import info") + ' ') ? "" : jade_interp)) + "<a href=\"#import\">" + (jade.escape(null == (jade_interp = t('import vcard')) ? "" : jade_interp)) + "</a></p>");;return buf.join("");
 };
 if (typeof define === 'function' && define.amd) {
@@ -2404,7 +2404,7 @@ var __templateData = function template(locals) {
 var buf = [];
 var jade_mixins = {};
 var jade_interp;
-var locals_ = (locals || {}),t = locals_.t;
+
 buf.push("<div class=\"modal-header\">" + (jade.escape(null == (jade_interp = t("import vcard")) ? "" : jade_interp)) + "</div><div class=\"modal-body\"><div class=\"control-group\"><label for=\"vcfupload\" class=\"control-label\">" + (jade.escape(null == (jade_interp = t("choose vcard file")) ? "" : jade_interp)) + "</label><div class=\"controls\"><input id=\"vcfupload\" type=\"file\"/><span class=\"help-inline\"></span></div></div></div><div class=\"modal-footer\"><a id=\"cancel-btn\" href=\"#\" class=\"minor-button\">" + (jade.escape(null == (jade_interp = t("cancel")) ? "" : jade_interp)) + "</a><a id=\"confirm-btn\" class=\"button disabled\">" + (jade.escape(null == (jade_interp = t("import")) ? "" : jade_interp)) + "</a></div>");;return buf.join("");
 };
 if (typeof define === 'function' && define.amd) {
@@ -2423,7 +2423,7 @@ var __templateData = function template(locals) {
 var buf = [];
 var jade_mixins = {};
 var jade_interp;
-var locals_ = (locals || {}),t = locals_.t,n = locals_.n,fn = locals_.fn;
+var locals_ = (locals || {}),n = locals_.n,fn = locals_.fn;
 buf.push("<div class=\"modal-header\">" + (jade.escape(null == (jade_interp = t("name editor")) ? "" : jade_interp)) + "</div><div class=\"modal-body\"><form class=\"form-horizontal\"><div class=\"control-group\"><label for=\"prefix\" class=\"control-label\">" + (jade.escape(null == (jade_interp = t("prefix")) ? "" : jade_interp)) + "</label><div class=\"controls\"><input id=\"prefix\" type=\"text\"" + (jade.attr("value", n[3], true, false)) + (jade.attr("placeholder", t("placeholder prefix"), true, false)) + "/></div></div><div class=\"control-group\"><label for=\"first\" class=\"control-label\">" + (jade.escape(null == (jade_interp = t("first name")) ? "" : jade_interp)) + "</label><div class=\"controls\"><input id=\"first\" type=\"text\"" + (jade.attr("value", n[1], true, false)) + (jade.attr("placeholder", t("placeholder first"), true, false)) + "/></div></div><div class=\"control-group\"><label for=\"middle\" class=\"control-label\">" + (jade.escape(null == (jade_interp = t("middle name")) ? "" : jade_interp)) + "</label><div class=\"controls\"><input id=\"middle\" type=\"text\"" + (jade.attr("value", n[2], true, false)) + (jade.attr("placeholder", t("placeholder middle"), true, false)) + "/></div></div><div class=\"control-group\"><label for=\"last\" class=\"control-label\">" + (jade.escape(null == (jade_interp = t("last name")) ? "" : jade_interp)) + "</label><div class=\"controls\"><input id=\"last\" type=\"text\"" + (jade.attr("value", n[0], true, false)) + (jade.attr("placeholder", t("placeholder last"), true, false)) + "/></div></div><div class=\"control-group\"><label for=\"suffix\" class=\"control-label\">" + (jade.escape(null == (jade_interp = t("suffix")) ? "" : jade_interp)) + "</label><div class=\"controls\"><input id=\"suffix\" type=\"text\"" + (jade.attr("value", n[4], true, false)) + (jade.attr("placeholder", t("placeholder suffix"), true, false)) + "/></div></div><div class=\"control-group\"><label for=\"full\" class=\"control-label\">" + (jade.escape(null == (jade_interp = t("full name")) ? "" : jade_interp)) + "</label><div class=\"controls\"><input id=\"full\" type=\"text\" disabled=\"disabled\"" + (jade.attr("value", fn, true, false)) + "/></div></div></form></div><div class=\"modal-footer\"><a id=\"cancel-btn\" class=\"minor-button\">" + (jade.escape(null == (jade_interp = t("cancel")) ? "" : jade_interp)) + "</a><a id=\"confirm-btn\" class=\"button\">" + (jade.escape(null == (jade_interp = t("save")) ? "" : jade_interp)) + "</a></div>");;return buf.join("");
 };
 if (typeof define === 'function' && define.amd) {
