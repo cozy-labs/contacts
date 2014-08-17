@@ -1,44 +1,41 @@
-# [Cozy](http://cozy.io) Contacts
+# [Cozy](http://cozy.io) Calendar
 
-Cozy Contacts makes your contact management easy. Main features are: 
+Cozy Contact makes your contact management easy. This a standalone version that
+don't require the whole Cozy platform to run. Main features are: 
 
 * Simple UI
 * Contact tagging
 * Contact notes
 * VCF import
-* CardDAV sync (it requires [Cozy Webdav](https://github.com/mycozycloud/cozy-webdav))
 
 ## Install
 
-We assume here that the Cozy platform is correctly [installed](http://cozy.io/host/install.html)
- on your server.
+    npm install cozy-contacts -g
 
-You can simply install the Contacts application via the app registry. Click on ythe *Chose Your Apps* button located on the right of your Cozy Home.
+## Run
 
-From the command line you can type this command:
+Run it from anywhere, data will be stored in the `~/.cozy-contacts`folder:
 
-    cozy-monitor install contacts
+    cozy-contacts
 
 
 ## Contribution
 
-You can contribute to the Cozy Contacts in many ways:
+You can contribute to the Cozy Calendar in many ways:
 
-* Pick up an [issue](https://github.com/mycozycloud/cozy-contacts/issues?state=open) and solve it.
-* Translate it in [a new language](https://github.com/mycozycloud/cozy-contacts/tree/master/client/app/locales).
-* Allow to share contacts
-* Allow to subscribe to a CardDAV Contact Book.
-
+* Translate it in [a new language](https://github.com/cozy/cozy-contacts/tree/master/client/app/locales).
+* Allow to share calendars via ICal feeds.
+* Allow to subscribe to a CalDAV Calendar.
 
 ## Hack
 
-Hacking the Contacts app requires you [setup a dev environment](http://cozy.io/hack/getting-started/). Once it's done you can hack Cozy Contact just like it was your own app.
+Get sources:
 
-    git clone https://github.com/mycozycloud/cozy-contacts.git
+    git clone https://github.com/cozy-labs/contacts.git
 
 Run it with:
 
-    node server.js
+    npm start
 
 Each modification of the server requires a new build, here is how to run a
 build:
@@ -52,10 +49,7 @@ Each modification of the client requires a specific build too.
 
 ## Tests
 
-![Build
-Status](https://travis-ci.org/mycozycloud/cozy-contacts.png?branch=master)
-
-To run tests type the following command into the Cozy Contacts folder:
+To run tests type the following command into the Cozy Calendar folder:
 
     cake tests
 
@@ -63,23 +57,22 @@ In order to run the tests, you must only have the Data System started.
 
 ## Icons
 
-by [iconmonstr](http://iconmonstr.com/).
+by [iconmonstr](http://iconmonstr.com/)
 
 Main icon by [Elegant Themes](http://www.elegantthemes.com/blog/freebie-of-the-week/beautiful-flat-icons-for-free).
 
 ## License
 
-Cozy Contacts is developed by Cozy Cloud and distributed under the AGPL v3 license.
+Cozy Calendar is developed by Cozy Cloud and distributed under the AGPL v3 license.
 
 ## What is Cozy?
-A
+
 ![Cozy Logo](https://raw.github.com/mycozycloud/cozy-setup/gh-pages/assets/images/happycloud.png)
 
 [Cozy](http://cozy.io) is a platform that brings all your web services in the
 same private space.  With it, your web apps and your devices can share data
-easily, providing you
-with a new experience. You can install Cozy on your own hardware where no one
-profiles you.
+easily, providing you with a new experience. You can install Cozy on your own
+hardware where no one profiles you.
 
 ## Community
 
@@ -89,3 +82,4 @@ You can reach the Cozy Community by:
 * Posting on our [Forum](https://groups.google.com/forum/?fromgroups#!forum/cozy-cloud)
 * Posting issues on the [Github repos](https://github.com/mycozycloud/)
 * Mentioning us on [Twitter](http://twitter.com/mycozycloud)
+
