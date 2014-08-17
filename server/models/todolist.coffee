@@ -1,4 +1,4 @@
-americano = require 'americano-cozy'
+americano = require 'americano-cozy-pouchdb'
 Tree = require './tree'
 
 module.exports = Todolist = americano.getModel 'TodoList',

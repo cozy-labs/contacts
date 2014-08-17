@@ -29,7 +29,7 @@ module.exports =
     'contacts/:contactid':
         get: contact.read
         put: contact.update
-        del: contact.delete
+        delete: contact.delete
 
     'contacts/:contactid/picture.png':
         get: contact.picture
@@ -44,7 +44,7 @@ module.exports =
     # do not fetch contact when we work only on a log
     'contacts/:contactnotfetched/logs/:logid':
         put:  contactLog.update
-        del:  contactLog.delete
+        delete:  contactLog.delete
 
     'logs':
         post: contactLog.merge

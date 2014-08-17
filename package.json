@@ -14,10 +14,11 @@
     "cozy-i18n-helper": "0.0.4",
     "async": "0.2.9",
     "jade": "0.32.0",
-    "americano": "0.3.0",
-    "americano-cozy": "0.2.0",
+    "americano": "0.3.10",
+    "americano-cozy-pouchdb": "0.3.11",
     "cozy-realtime-adapter": "0.12.0",
-    "request-json": "0.4.10"
+    "request-json": "0.4.10",
+    "path-extra": "^0.2.1"
   },
   "devDependencies": {
     "chai": "~1.5.0",
@@ -28,6 +29,10 @@
   "scripts": {
     "test": "cake tests",
     "start": "node server.js"
+  },
+  "main": "server.js",
+  "bin": {
+    "cozy-contacts": "bin/cozy-contacts"
   },
   "repository": "https://github.com/mycozycloud/cozy-contacts",
   "readmeFilename": "README.md",

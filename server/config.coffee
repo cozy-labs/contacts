@@ -23,5 +23,5 @@ module.exports =
     ]
 
     plugins: [
-        'americano-cozy'
+        'americano-cozy-pouchdb'
     ]

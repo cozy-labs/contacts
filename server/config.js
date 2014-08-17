@@ -21,5 +21,5 @@ module.exports = {
   },
   development: [americano.logger('dev')],
   production: [americano.logger('short')],
-  plugins: ['americano-cozy']
+  plugins: ['americano-cozy-pouchdb']
 };

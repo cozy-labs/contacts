@@ -1,4 +1,4 @@
-americano = require 'americano-cozy'
+americano = require 'americano-cozy-pouchdb'
 
 module.exports = Mail = americano.getModel 'Mail',
      createdAt: type: Number, default: 0

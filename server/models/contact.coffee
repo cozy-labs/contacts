@@ -1,4 +1,4 @@
-americano = require 'americano-cozy'
+americano = require 'americano-cozy-pouchdb'
 ContactLog = require './contact_log'
 
 module.exports = Contact = americano.getModel 'Contact',
