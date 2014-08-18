@@ -18,9 +18,7 @@ start = function(options, callback) {
   options.root = options.root || __dirname;
   configPath = path.join(process.cwd(), 'config.json');
   if (!fs.existsSync(configPath)) {
-    config = {
-      apps: {}
-    };
+    config = {};
     fs.writeFileSync(configPath, JSON.stringify(config));
   }
   return americano.start(options, function(app, server) {
