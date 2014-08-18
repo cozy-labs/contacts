@@ -12,7 +12,7 @@ start = (options, callback) ->
 
     configPath = path.join process.cwd(), 'config.json'
     unless fs.existsSync configPath
-        config = apps: {}
+        config = {}
         fs.writeFileSync configPath, JSON.stringify config
 
     americano.start options, (app, server) ->
