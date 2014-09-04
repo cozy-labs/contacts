@@ -24,12 +24,5 @@ module.exports =
         bySnippet : (doc) -> emit doc.snippet, doc
         byNumber  : (doc) -> emit doc.correspondantNumber, doc
 
-    # Requests required to create tasks
-    todolist:
-        all: americano.defaultRequests.all
-
-    tree:
-        byType: (doc) -> emit doc.type, doc
-
-    task:
+    tasky:
         all: americano.defaultRequests.all

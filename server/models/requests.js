@@ -34,15 +34,7 @@ module.exports = {
       return emit(doc.correspondantNumber, doc);
     }
   },
-  todolist: {
-    all: americano.defaultRequests.all
-  },
-  tree: {
-    byType: function(doc) {
-      return emit(doc.type, doc);
-    }
-  },
-  task: {
+  tasky: {
     all: americano.defaultRequests.all
   }
 };
