@@ -15,7 +15,7 @@
     "cozy-i18n-helper": "0.0.4",
     "async": "0.2.9",
     "jade": "0.32.0",
-    "americano": "0.3.10",
+    "americano": "0.3.11",
     "americano-cozy-pouchdb": "0.3.16",
     "cozy-realtime-adapter": "0.12.0",
     "request-json": "0.4.10",
