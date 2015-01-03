@@ -10,18 +10,21 @@ fs = require('fs');
 americano = require('americano');
 
 start = function(options, callback) {
-  var config, configPath;
+  var configPath;
   if (options == null) {
     options = {};
   }
   options.name = 'Contacts';
-  options.port = options.port || 9114;
+  if (options.port == null) {
+    options.port = 9114;
+  }
   options.host = process.env.HOST || "0.0.0.0";
-  options.root = options.root || __dirname;
+  if (options.root == null) {
+    options.root = __dirname;
+  }
   configPath = path.join(process.cwd(), 'config.json');
   if (!fs.existsSync(configPath)) {
-    config = {};
-    fs.writeFileSync(configPath, JSON.stringify(config));
+    fs.writeFileSync(configPath, JSON.stringify({}));
   }
   return americano.start(options, function(app, server) {
     return typeof callback === "function" ? callback(null, app, server) : void 0;

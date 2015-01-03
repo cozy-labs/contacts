@@ -28,14 +28,18 @@ module.exports = {
         }
         return 0;
       });
-      if (err) {
+      if ((err != null ? err.status : void 0) === 404) {
+        return res.send([], 200);
+      } else if (err) {
         return res.error(err);
+      } else {
+        return res.send(logs, 200);
       }
-      return res.send(logs, 200);
     });
   },
   fetch: function(req, res, next, id) {
     return ContactLog.find(id, function(err, log) {
+      console.log(err);
       if (err) {
         return res.error(500, 'An error occured', err);
       }

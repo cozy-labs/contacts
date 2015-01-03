@@ -14,11 +14,12 @@ multiparty = require('multiparty');
 module.exports = {
   fetch: function(req, res, next, id) {
     return Contact.find(id, function(err, contact) {
-      if (err) {
-        return res.error(500, 'An error occured', err);
-      }
-      if (!contact) {
+      if ((err != null ? err.status : void 0) === 404 || !contact) {
         return res.error(404, 'Contact not found');
+      } else if (err) {
+        if (err) {
+          return res.error(500, 'An error occured', err);
+        }
       }
       req.contact = contact;
       return next();
@@ -34,7 +35,6 @@ module.exports = {
   },
   create: function(req, res) {
     var create, model, toCreate;
-    console.log(req.body);
     model = req.body.contact ? JSON.parse(req.body.contact) : req.body;
     toCreate = new Contact(model);
     create = function() {

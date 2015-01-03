@@ -16,9 +16,7 @@ publicPath = path.join(clientPath, 'public');
 module.exports = {
   common: {
     use: [
-      americano["static"](path.resolve(__dirname, '../client/public'), americano.bodyParser({
-        keepExtensions: true
-      })), require('./helpers/shortcut'), americano.errorHandler({
+      americano["static"](path.resolve(__dirname, '../client/public')), americano.bodyParser(), require('./helpers/shortcut'), americano.errorHandler({
         dumpExceptions: true,
         showStack: true
       })
