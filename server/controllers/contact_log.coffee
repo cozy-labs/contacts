@@ -19,11 +19,16 @@ module.exports =
                 return -1 if y.type is 'NOTE' and x.type isnt 'NOTE'
                 return 0
 
-            return res.error err if err
-            res.send logs, 200
+            if err?.status is 404
+                res.send [], 200
+            else if err
+                res.error err
+            else
+                res.send logs, 200
 
     fetch: (req, res, next, id) ->
         ContactLog.find id, (err, log) ->
+            console.log err
             return res.error 500, 'An error occured', err if err
             return res.error 404, 'Log not found' if not log
 

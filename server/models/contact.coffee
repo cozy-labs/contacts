@@ -1,5 +1,8 @@
 americano = require 'americano-cozy-pouchdb'
 ContactLog = require './contact_log'
+fs = require 'fs'
+log = require('printit')
+    prefix: 'Contact Model'
 
 module.exports = Contact = americano.getModel 'Contact',
     id            : String
@@ -21,8 +24,22 @@ Contact::remoteKeys = ->
             out.push dp.value.toLowerCase()
     return out
 
+# Save given file as contact picture then delete given file from disk.
+Contact::savePicture = (path, callback) ->
+    data = name: 'picture'
+    log.debug path
+    @attachFile path, data, (err) ->
+        if err
+            callback err
+        else
+            fs.unlink path, (err) ->
+                log.error "failed to purge #{file.path}" if err
+                callback()
+
 Contact::getComputedFN = (config) ->
     [familly, given, middle, prefix, suffix] = @n.split ';'
+    config ?= {}
+    config.nameOrder ?= 'given-familly'
     switch config.nameOrder
         when 'given-familly' then "#{given} #{middle} #{familly}"
         when 'familly-given' then "#{familly}, #{given} #{middle}"
@@ -41,27 +58,39 @@ Contact::toVCF = (config) ->
         out += "N:#{model.n}\n"
         out += "FN:#{@getComputedFN(config)}\n"
     else if model.fn
+        out += "N:;;;;\n"
         out += "FN:#{model.fn}\n"
+    else
+        out += "N:;;;;\n"
+        out += "FN:\n"
 
     for i, dp of model.datapoints
 
         value = dp.value
 
-        switch dp.name
+        key = dp.name.toUpperCase()
+        switch key
 
-            when 'about'
+            when 'ABOUT'
                 if dp.type is 'org' or dp.type is 'title'
                     out += "#{dp.type.toUpperCase()}:#{value}\n"
                 else
                     out += "X-#{dp.type.toUpperCase()}:#{value}\n"
 
-            when 'other'
+            when 'OTHER'
                 out += "X-#{dp.type.toUpperCase()}:#{value}\n"
 
+            when 'ADR'
+                # since a proper address management would be very complicated
+                # we trick it a bit so it matched the standard
+                value = value.replace /(\r\n|\n\r|\r|\n)/g, ";"
+                content = "TYPE=home,postal:;;#{value};;;;"
+                out += "ADR;#{content}\n"
             else
-                key = dp.name.toUpperCase()
-                value = value.replace(/(\r\n|\n\r|\r|\n)/g, ";") if key is 'ADR'
-                type = "TYPE=#{dp.type.toUpperCase()}"
-                out += "#{key};#{type}:#{value}\n"
+                if dp.type?
+                    type = ";TYPE=#{dp.type.toUpperCase()}"
+                else
+                    type = ""
+                out += "#{key}#{type}:#{value}\n"
 
     out += "END:VCARD\n"

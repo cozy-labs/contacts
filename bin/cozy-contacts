@@ -14,7 +14,7 @@ if(process.env.POUCHDB_NAME === undefined) {
   process.chdir(defaultDir);
 }
 
-var root = path.join(path.dirname(fs.realpathSync(__filename)), '..');
+var root = path.join(path.dirname(fs.realpathSync(__filename)), '..', 'build');
 var start = require(path.join(root, 'server')).start;
 var port = process.env.PORT || 9114;
 

@@ -3,6 +3,7 @@ HistoryView = require 'views/history'
 TagsView = require 'views/contact_tags'
 NameModal = require 'views/contact_name_modal'
 Datapoint = require 'models/datapoint'
+request = require '../lib/request'
 
 
 module.exports = class ContactView extends ViewCollection
@@ -25,7 +26,6 @@ module.exports = class ContactView extends ViewCollection
         'click .addurl'     : @addClicked 'url'
         'click .addskype'   : @addClicked 'other', 'skype'
         'click #more-options': 'onMoreOptionsClicked'
-        'click #create-task': 'onCreateTaskClicked'
         'click #name-edit'  : 'showNameModal'
         'click #undo'       : 'undo'
         'click #delete'     : 'delete'
@@ -59,6 +59,10 @@ module.exports = class ContactView extends ViewCollection
         @listenTo @collection, 'remove' , =>
             @needSaving = true
             @changeOccured()
+
+        # if the contact is open when it's removed, we redirect the user to
+        # the main page
+        @listenTo @model, 'remove', -> window.app.router.navigate '', true
 
     getRenderData: ->
         _.extend {}, @model.toJSON(),
@@ -100,9 +104,6 @@ module.exports = class ContactView extends ViewCollection
         @$('a#infotab').on 'shown', =>
             @$('#left').show()
             @resizeNiceScroll()
-
-        @createTaskButton = @$("#create-task")
-        @createTaskButton.hide() unless @model.get('id')?
 
     remove: ->
         @$el.getNiceScroll().remove()
@@ -167,13 +168,16 @@ module.exports = class ContactView extends ViewCollection
 
 
     delete: ->
-        @model.destroy() if @model.isNew() or confirm t 'Are you sure ?'
+        @model.destroy() if @model.isNew() or confirm t 'are you sure'
 
     save: =>
         return unless @needSaving
         @needSaving = false
         @savedInfo.show().text 'saving changes'
-        @model.save()
+
+        @model.save
+           success: =>
+               @collection.trigger 'change', @model
 
     showNameModal: =>
         modal = new NameModal
@@ -190,18 +194,6 @@ module.exports = class ContactView extends ViewCollection
             @$("#adder h2").show()
             @$("#adder").fadeIn()
             @resizeNiceScroll()
-
-    # Ask to server to create a new task that says to call back current
-    # contact. An alert gives the request result to the user.
-    onCreateTaskClicked: =>
-        value = @createTaskButton.html()
-        @createTaskButton.html t 'creating...'
-        @model.createTask (err) =>
-            @createTaskButton.html value
-            if err
-                alert "An error occured while creating task"
-            else
-                alert "Task created"
 
     undo: =>
         return unless @lastState
@@ -254,8 +246,7 @@ module.exports = class ContactView extends ViewCollection
     resizeNiceScroll: (event) =>
         @$el.getNiceScroll().resize()
 
-    photoChanged: () =>
-
+    photoChanged: =>
         file = @uploader.files[0]
 
         unless file.type.match /image\/.*/
@@ -288,7 +279,7 @@ module.exports = class ContactView extends ViewCollection
                 blob = new Blob [new Uint8Array(array)], type: 'image/jpeg'
 
                 @model.picture = blob
-                @model.save null, undo: true # hacky, prevent undoing
+                @model.savePicture()
 
     onTagInputKeyPress: (event) ->
         keyCode = event.keyCode || event.which
@@ -317,6 +308,5 @@ module.exports = class ContactView extends ViewCollection
                 @$('.value:visible').last().focus()
             else
                 @$('#name').focus()
-
-            event.preventDefault()
+            Event.preventDefault()
             false

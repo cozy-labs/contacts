@@ -21,6 +21,8 @@ module.exports =
 
     'contacts.vcf':
         get: contact.vCard
+    'contacts/:contactid/:fn.vcf':
+        get: contact.vCardContact
 
     'contacts':
         get: contact.list
@@ -31,15 +33,15 @@ module.exports =
         put: contact.update
         delete: contact.delete
 
+    'contacts/:contactid/picture':
+        put: contact.updatePicture
+
     'contacts/:contactid/picture.png':
         get: contact.picture
 
     'contacts/:contactid/logs':
         get:  contactLog.byContact
         post: contactLog.create
-
-    'contacts/:contactid/new-call-task':
-        post: contact.createTask
 
     # do not fetch contact when we work only on a log
     'contacts/:contactnotfetched/logs/:logid':

@@ -1,9 +1,12 @@
-Task = require '../server/models/task'
+fs = require 'fs'
+expect = require('chai').expect
 
 fixtures = require './fixtures/data'
-fs = require 'fs'
 helpers = require './helpers'
-expect = require('chai').expect
+
+Task = require "#{helpers.prefix}server/models/task"
+Contact = require "#{helpers.prefix}server/models/contact"
+
 
 describe 'Contacts', ->
 
@@ -60,6 +63,37 @@ describe 'Contacts', ->
             expect(@body.id).to.exist
             @id = @body.id
 
+        it 'When you create the same contact with import flag', (done) ->
+            contact =
+                fn: 'Jane Smith'
+                import: true
+
+            @client.post 'contacts', contact, done
+
+        it 'And you get all contacts', (done) ->
+            @client.get 'contacts', done
+
+        it 'Then there should be only one contact with that name', ->
+            nb = 0
+            for contact in @body
+                nb++ if contact.fn is 'Jane Smith'
+            expect(nb).to.equal 1
+
+        it 'When you create the same contact without import flag', (done) ->
+            contact =
+                fn: 'Jane Smith'
+
+            @client.post 'contacts', contact, done
+
+        it 'And you get all contacts', (done) ->
+            @client.get 'contacts', done
+
+        it 'Then there should be two contacts with that name', ->
+            nb = 0
+            for contact in @body
+                nb++ if contact.fn is 'Jane Smith'
+            expect(nb).to.equal 2
+
     describe 'Update - PUT /contacts/:id', ->
 
         update =
@@ -71,27 +105,11 @@ describe 'Contacts', ->
         it 'should reply with the updated album', ->
             expect(@body.note).to.equal update.note
 
-        it 'when I GET the album', (done) ->
+        it 'when I GET the contact', (done) ->
             @client.get "contacts/#{@id}", done
 
         it 'then it is changed', ->
             expect(@body.note).to.equal update.note
-
-    describe 'Create task - POST /contacts/:id/new-call-task', ->
-
-        it 'should allow requests', (done) ->
-            @client.post "contacts/#{@id}/new-call-task", {}, done
-
-        it 'should reply with 201 status', ->
-            expect(@response.statusCode).to.equal 201
-
-        it 'when I fetch tasks', (done) ->
-            Task.all (err, tasks) =>
-                @task = tasks[0]
-                done()
-
-        it 'then i get one with correct description', ->
-            expect(@task.description).to.equal "Contact undefined #followup"
 
     describe 'Delete - DELETE /contacts/:id', ->
 
@@ -106,5 +124,3 @@ describe 'Contacts', ->
 
         it 'then i get an error', ->
             expect(@response.statusCode).to.equal 404
-
-

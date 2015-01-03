@@ -35,16 +35,20 @@ module.exports = class Contact extends Backbone.Model
         note: ''
         tags: []
 
+    # Analyze given attribute list and transform them in datapoints,
+    # Datapoint is structure that describes an object (fields: name, type, value)
+    # as an attribute. For each attribute, you can have several values of
+    # different type. That's why this structure is required.
     parse: (attrs) ->
 
         if _.where(attrs?.datapoints, name: 'tel').length is 0
-            attrs?.datapoints.push
+            attrs?.datapoints?.push
                 name: 'tel'
                 type: 'main'
                 value: ''
 
         if _.where(attrs?.datapoints, name: 'email').length is 0
-            attrs?.datapoints.push
+            attrs?.datapoints?.push
                 name: 'email'
                 type: 'main'
                 value: ''
@@ -64,21 +68,6 @@ module.exports = class Contact extends Backbone.Model
             attrs.n = undefined
 
         return attrs
-
-    sync: (method, model, options) ->
-        if @picture
-            options.contentType = false
-            options.data = new FormData()
-            options.data.append 'picture', @picture
-            options.data.append 'contact', JSON.stringify @toJSON()
-            success = options.success
-            options.success = (resp) =>
-                success resp
-                @hasPicture = true
-                @trigger 'change', this, {}
-                delete @picture
-
-        super(method, model, options)
 
     getBest: (name) ->
         result = null
@@ -105,20 +94,26 @@ module.exports = class Contact extends Backbone.Model
 
         return attrs
 
-    sync: (method, model, options) ->
-        if @picture
-            options.contentType = false
-            options.data = new FormData()
-            options.data.append 'picture', @picture
-            options.data.append 'contact', JSON.stringify @toJSON()
-            success = options.success
-            options.success = (resp) =>
-                success resp
-                @hasPicture = true
-                @trigger 'change', this, {}
-                delete @picture
+    savePicture: (callback) ->
+        unless @get('id')?
+            @save {},
+                success: =>
+                    @savePicture()
+        else
+            data = new FormData()
+            data.append 'picture', @picture
+            data.append 'contact', JSON.stringify @toJSON()
 
-        super(method, model, options)
+            markChanged = (err, body) =>
+                if err
+                    console.log err
+                else
+                    @hasPicture = true
+                    @trigger 'change', this, {}
+                    delete @picture
+
+            path = "contacts/#{@get 'id'}/picture"
+            request.put path, data, markChanged, false
 
     getBest: (name) ->
         result = null
@@ -208,10 +203,8 @@ AndroidToDP = (contact, raw) ->
             else 'birthday'
             contact.addDP 'about', type, value
         when 'relation'
-            # console.log parts
             value = parts[1]
             type = ANDROID_RELATION_TYPES[+parts[2]]
-            # console.log type
             type = parts[3] if type is 'custom'
             contact.addDP 'other', type, value
 
@@ -244,7 +237,21 @@ Contact.fromVCF = (vcf) ->
         else if regexps.end.test line
             current.dataPoints.add currentdp if currentdp
             imported.add current
-            current.unset 'fn' if current.has 'n'
+
+            # There is two fields N and FN that does the same thing but the
+            # same way. Some vCard have one or ther other, or both.
+            # If both are present, we use the following order:
+            # N (if it exists and is valid) > FN
+            if current.has('n') and current.has('fn')
+                if _.compact(current.get 'n').length is 0
+                    current.unset 'n'
+                else
+                    current.unset 'fn'
+
+            else if not current.has('n') and not current.has('fn')
+                console.error 'There should be at least a N field or a FN field'
+            # else already well formatted
+
             currentdp = null
             current = null
             currentidx = null
@@ -268,7 +275,6 @@ Contact.fromVCF = (vcf) ->
 
         else if regexps.android.test line
                 [all, value] = line.match regexps.android
-                # console.log 'androd', value
                 AndroidToDP current, value
 
         else if regexps.composedkey.test line
@@ -299,6 +305,7 @@ Contact.fromVCF = (vcf) ->
                     currentdp.set pname.toLowerCase(), pvalue.toLowerCase()
 
                 if key is 'adr'
+                    value ?= []
                     value = value.join("\n").replace /\n+/g, "\n"
 
                 if key is 'x-abdate'
@@ -316,8 +323,6 @@ Contact.fromVCF = (vcf) ->
             current.dataPoints.add currentdp if currentdp
             currentdp = new DataPoint()
 
-            # console.log all, '-->', key, properties, value
-
             value = value.split(';')
             value = value[0] if value.length is 1
 
@@ -326,14 +331,15 @@ Contact.fromVCF = (vcf) ->
             if key in ['email', 'tel', 'adr', 'url']
                 currentdp.set 'name', key
                 if key is 'adr'
-                    value = value.join("\n").replace /\n+/g, "\n"
+                    value ?= []
+                    if typeof value isnt 'string'
+                        value = value.join '\n'
+                    value = value.replace /\n+/g, "\n"
             else
                 currentdp = null
                 continue
 
             properties = properties.split ';'
-
-            # console.log "properties=", properties
 
             for property in properties
                 match = property.match regexps.property
@@ -348,6 +354,5 @@ Contact.fromVCF = (vcf) ->
                     currentdp.set pname.toLowerCase(), pvalue.toLowerCase()
 
             currentdp.set 'value', value
-
 
     return imported

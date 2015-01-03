@@ -1,24 +1,30 @@
-americano = require 'americano'
-fs = require 'fs'
+contactwatch = require './server/initializers/contactwatch'
 path = require 'path'
+fs = require 'fs'
+americano = require('americano')
 
 start = (options, callback) ->
 
     options ?= {}
     options.name = 'Contacts'
-    options.port = options.port
+    options.port ?= 9114
     options.host = process.env.HOST or "0.0.0.0"
-    options.root = options.root or __dirname
+    options.root ?=__dirname
 
     configPath = path.join process.cwd(), 'config.json'
     unless fs.existsSync configPath
-        config = {}
-        fs.writeFileSync configPath, JSON.stringify config
+        fs.writeFileSync configPath, JSON.stringify {}
 
     americano.start options, (app, server) ->
-        callback null, app, server
+
+        # start contact watch to upadte UI when new contact are added
+        # or modified
+        #contactwatch server, (err) ->
+        callback? null, app, server
+
 
 if not module.parent
+    host = process.env.HOST or '127.0.0.1'
     port = process.env.PORT or 9114
     start {port: port}, (err) ->
         if err
